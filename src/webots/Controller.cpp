@@ -142,27 +142,27 @@ Device *Controller::getDeviceByName(string name) {
     return nullptr;
 }
 
-double *Controller::getObjectPosition(const string& nodeDef) {
+double *Controller::getObjectPosition(const string &nodeDef) {
     return const_cast<double *>(supervisor->getFromDef(nodeDef)->getPosition());
 }
 
-double *Controller::getObjectRotation(const string& nodeDef) {
+double *Controller::getObjectRotation(const string &nodeDef) {
     return const_cast<double *>(supervisor->getFromDef(nodeDef)->getField("rotation")->getSFRotation());
 }
 
-double *Controller::getObjectOrientation(const string& nodeDef) {
+double *Controller::getObjectOrientation(const string &nodeDef) {
     return const_cast<double *>(supervisor->getFromDef(nodeDef)->getOrientation());
 }
 
-void Controller::setObjectPosition(const string& nodeDef, double *position) {
+void Controller::setObjectPosition(const string &nodeDef, double *position) {
     supervisor->getFromDef(nodeDef)->getField("translation")->setSFVec3f(position);
 }
 
-void Controller::setObjectRotation(const string& nodeDef, double *rotation) {
+void Controller::setObjectRotation(const string &nodeDef, double *rotation) {
     supervisor->getFromDef(nodeDef)->getField("rotation")->setSFRotation(rotation);
 }
 
-double *Controller::getObjectVelocity(const string& nodeDef) {
+double *Controller::getObjectVelocity(const string &nodeDef) {
     return const_cast<double *>(getSupervisor()->getFromDef(nodeDef)->getVelocity());
 }
 

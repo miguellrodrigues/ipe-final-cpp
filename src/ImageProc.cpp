@@ -7,7 +7,7 @@
 
 using std::vector;
 
-vector<vector<Point>> ImageProc::findContours(const Mat& src, const Scalar& lower_bound, const Scalar& upper_bound) {
+vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
     GpuMat g_frame, hsv;
     Mat mask, mask_out;
 
@@ -33,7 +33,7 @@ vector<int> ImageProc::getContourCenter(const vector<Point> &contour) {
     return {center_x, center_y};
 }
 
-void ImageProc::draw_contour_rectangle(const Mat& src, const vector<Point>& contour, const Scalar& color) {
+void ImageProc::draw_contour_rectangle(const Mat &src, const vector<Point> &contour, const Scalar &color) {
     Rect rect = boundingRect(contour);
 
     cv::rectangle(src, rect, color, 1);
@@ -49,7 +49,7 @@ void ImageProc::draw_contour_cross(const Mat &src, const vector<int> &centers, c
 
 void ImageProc::drawContours(const Mat &src, const vector<vector<Point>> &contours, bool rectangle, bool cross) {
     if (rectangle) {
-        for (const vector<Point> & contour : contours) {
+        for (const vector<Point> &contour : contours) {
             draw_contour_rectangle(src, contour, Scalar(50, 150, 0));
         }
     } else {
@@ -57,14 +57,14 @@ void ImageProc::drawContours(const Mat &src, const vector<vector<Point>> &contou
     }
 
     if (cross) {
-        for (const vector<Point> & contour : contours) {
+        for (const vector<Point> &contour : contours) {
             draw_contour_cross(src, getContourCenter(contour), Scalar(255, 255, 255));
         }
     }
 }
 
-Mat ImageProc::processWebotsCameraImage(unsigned int width, unsigned int height, const unsigned char *data) {
-    Mat out = Mat(width, height, CV_8UC4, (unsigned *)data);
+Mat ImageProc::processCameraImage(unsigned int height, unsigned int width, const unsigned char *data) {
+    Mat out = Mat((int) height, (int) width, CV_8UC4, (unsigned *) data);
     return out;
 }
 

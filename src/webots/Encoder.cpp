@@ -6,8 +6,9 @@
 
 using lib::Encoder;
 
-lib::Encoder::Encoder(const string &name, float wheel_radius, unsigned int sampling_rate): PositionSensor(name), wheel_radius(wheel_radius), sampling_rate(sampling_rate) {
-    this->enable((int)sampling_rate);
+lib::Encoder::Encoder(const string &name, float wheel_radius, unsigned int sampling_rate) : PositionSensor(name),
+                                                                                            wheel_radius(wheel_radius) {
+    this->enable((int) sampling_rate);
 }
 
 double lib::Encoder::getPosition() {

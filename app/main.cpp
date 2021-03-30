@@ -17,10 +17,14 @@ int main() {
             .032
     );
 
-    namedWindow("output", WINDOW_NORMAL);
+    namedWindow("output");
 
     while (robot.run() != -1) {
         auto image = robot.getCameraImage();
+
+        auto contours = ImageProc::findContours(image, Scalar(103, 26, 0), Scalar(156, 255, 255));
+
+        ImageProc::drawContours(image, contours, true, true);
 
         imshow("output", image);
         waitKey(16);

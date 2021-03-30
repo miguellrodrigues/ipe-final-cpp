@@ -14,11 +14,13 @@ using std::endl;
 using std::to_string;
 
 
-Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_radius): sampling_rate(sampling_rate), wheels_count(wheels_count), wheel_radius(wheel_radius) {
+Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_radius) : sampling_rate(sampling_rate),
+                                                                                          wheels_count(wheels_count),
+                                                                                          wheel_radius(wheel_radius) {
     this->controller = new Controller(sampling_rate);
     this->camera = new Camera("camera");
 
-    this->camera->enable((int)sampling_rate);
+    this->camera->enable((int) sampling_rate);
 
     this->wheels.reserve(wheels_count);
     this->encoders.reserve(wheels_count);
@@ -35,7 +37,7 @@ int Robot::run() {
     return controller->step();
 }
 
-void Robot::setVelocities(const vector<double>& velocities) {
+void Robot::setVelocities(const vector<double> &velocities) {
     for (unsigned int i = 0; i < velocities.size(); ++i) {
         this->wheels.at(i)->setVelocity(velocities.at(i));
     }
@@ -46,5 +48,5 @@ Robot::~Robot() {
 }
 
 Mat Robot::getCameraImage() {
-    return ImageProc::processWebotsCameraImage(camera->getWidth(), camera->getHeight(), camera->getImage());
+    return ImageProc::processCameraImage(camera->getHeight(), camera->getWidth(), camera->getImage());
 }

@@ -16,9 +16,8 @@ namespace lib {
         Encoder(const string &name, float wheel_radius, unsigned int sampling_rate);
 
         double getPosition();
-    private:
-        unsigned int sampling_rate;
 
+    private:
         float wheel_radius;
     };
 }

@@ -24,11 +24,12 @@ public:
 
     int run();
 
-    void setVelocities(const vector<double>& velocities);
+    void setVelocities(const vector<double> &velocities);
 
     cv::Mat getCameraImage();
 
     ~Robot();
+
 private:
     Controller *controller;
 

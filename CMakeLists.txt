@@ -12,15 +12,20 @@ file(GLOB CPP_SOURCES *.cpp)
 
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         app/main.cpp
+
         include/_webots/Controller.hpp
         include/_webots/Wheel.hpp
         include/_webots/Encoder.hpp
         include/Robot.hpp
+        include/ImageProc.hpp
 
         src/webots/Controller.cpp
         src/webots/Wheel.cpp
         src/webots/Encoder.cpp
-        src/Robot.cpp include/ImageProc.hpp src/ImageProc.cpp tests/camera_test.cpp)
+        src/Robot.cpp
+        src/ImageProc.cpp
+
+        tests/camera_test.cpp)
 
 link_directories(/usr/local/webots/lib/controller)
 set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX} ${OpenCV_LIBS})
