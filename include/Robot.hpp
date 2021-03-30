@@ -8,6 +8,7 @@
 #include "_webots/Controller.hpp"
 #include "_webots/Wheel.hpp"
 #include "_webots/Encoder.hpp"
+#include "ImageProc.hpp"
 
 #include <webots/Camera.hpp>
 
@@ -21,9 +22,11 @@ class Robot {
 public:
     Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_radius);
 
-    void setVelocities(vector<double> velocities);
-
     int run();
+
+    void setVelocities(const vector<double>& velocities);
+
+    cv::Mat getCameraImage();
 
     ~Robot();
 private:

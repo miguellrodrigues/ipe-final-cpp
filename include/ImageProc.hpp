@@ -17,9 +17,17 @@ using namespace cv::cuda;
 
 class ImageProc {
 public:
-    static vector<vector <cv::Point>> findContours(const Mat& src, const Scalar& lower_bound, const Scalar& upper_bound);
+    static vector<vector<Point>> findContours(const Mat& src, const Scalar& lower_bound, const Scalar& upper_bound);
 
-    static void drawContours(const Mat& src, const Mat &contours, bool rectangle=false, bool cross=false)
+    static vector<int> getContourCenter(const vector<Point>& contour);
+
+    static void drawContours(const Mat& src, const vector<vector<Point>> &contours, bool rectangle=false, bool cross=false);
+
+    static void draw_contour_rectangle(const Mat& src, const vector<Point>& contour, const Scalar& color);
+
+    static void draw_contour_cross(const Mat& src, const vector<int>& centers, const Scalar& color);
+
+    static Mat processWebotsCameraImage(unsigned int width, unsigned int height, const unsigned char* data);
 };
 
 #endif //IPE_FINAL_IMAGEPROC_HPP

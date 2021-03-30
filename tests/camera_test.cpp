@@ -10,7 +10,7 @@ using std::endl;
 
 using namespace cv;
 
-int main() {
+int camera_test() {
     Robot robot(
             16,
             2,

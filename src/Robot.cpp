@@ -18,6 +18,8 @@ Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_
     this->controller = new Controller(sampling_rate);
     this->camera = new Camera("camera");
 
+    this->camera->enable((int)sampling_rate);
+
     this->wheels.reserve(wheels_count);
     this->encoders.reserve(wheels_count);
 
@@ -33,7 +35,7 @@ int Robot::run() {
     return controller->step();
 }
 
-void Robot::setVelocities(vector<double> velocities) {
+void Robot::setVelocities(const vector<double>& velocities) {
     for (unsigned int i = 0; i < velocities.size(); ++i) {
         this->wheels.at(i)->setVelocity(velocities.at(i));
     }
@@ -41,4 +43,8 @@ void Robot::setVelocities(vector<double> velocities) {
 
 Robot::~Robot() {
     delete this->controller;
+}
+
+Mat Robot::getCameraImage() {
+    return ImageProc::processWebotsCameraImage(camera->getWidth(), camera->getHeight(), camera->getImage());
 }
