@@ -28,6 +28,8 @@ int camera_test() {
 
         imshow("output", image);
         waitKey(16);
+
+        image.release();
     }
 
     return 0;

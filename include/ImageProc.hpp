@@ -17,6 +17,8 @@ using namespace cv::cuda;
 
 class ImageProc {
 public:
+    static Mat threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound);
+
     static vector<vector<Point>> findContours(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound);
 
     static vector<int> getContourCenter(const vector<Point> &contour);

@@ -7,7 +7,7 @@
 
 using std::vector;
 
-vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
+Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
     GpuMat g_frame, hsv;
     Mat mask, mask_out;
 
@@ -17,9 +17,21 @@ vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lowe
 
     inRange(mask, lower_bound, upper_bound, mask_out);
 
+    g_frame.release();
+    hsv.release();
+    mask_out.release();
+
+    return mask_out;
+}
+
+vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
+    Mat mask = threshold(src, lower_bound, upper_bound);
+
     vector<vector<Point>> contours;
 
-    cv::findContours(mask_out, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+    cv::findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+
+    mask.release();
 
     return contours;
 }
