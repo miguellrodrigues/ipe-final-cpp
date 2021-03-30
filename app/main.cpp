@@ -20,14 +20,39 @@ int main() {
     namedWindow("output");
 
     while (robot.run() != -1) {
-        auto image = robot.getCameraImage();
+        Mat image = robot.getCameraImage();
 
-        auto contours = ImageProc::findContours(image, Scalar(103, 26, 0), Scalar(156, 255, 255));
+        vector<vector<Point>> ball_contours = ImageProc::findContours(
+                image,
+                Scalar(103, 26, 0),
+                Scalar(156, 255, 255)
+        );
 
-        ImageProc::drawContours(image, contours, true, true);
+        ImageProc::drawContours(image, ball_contours, false, true);
+
+        vector<vector<Point>> target_contours = ImageProc::findContours(
+                image,
+                Scalar(65, 0, 0),
+                Scalar(98, 223, 255)
+        );
+
+        ImageProc::drawContours(image, target_contours, true, true);
 
         imshow("output", image);
         waitKey(16);
+
+        try {
+            vector<int> ball_centers = ImageProc::getContourCenter(ball_contours.at(0));
+            vector<int> target_centers = ImageProc::getContourCenter(ball_contours.at(0));
+
+            int x = 640 / 2;
+
+            double err = 0.1 * (x - target_centers.at(0));
+
+            robot.setVelocities({-err, err});
+        } catch (Exception &ex) {
+
+        }
     }
 
     return 0;

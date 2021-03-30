@@ -4,8 +4,12 @@
 
 #include "../include/ImageProc.hpp"
 #include <vector>
+#include <iostream>
 
 using std::vector;
+using std::cout;
+using std::endl;
+
 
 Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
     GpuMat g_frame, hsv;
@@ -17,9 +21,9 @@ Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar
 
     inRange(mask, lower_bound, upper_bound, mask_out);
 
+    mask.release();
     g_frame.release();
     hsv.release();
-    mask_out.release();
 
     return mask_out;
 }
@@ -28,15 +32,22 @@ vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lowe
     Mat mask = threshold(src, lower_bound, upper_bound);
 
     vector<vector<Point>> contours;
-
     cv::findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
 
     mask.release();
+
+    sort(contours.begin(), contours.end(), [](const vector<Point> &one, const vector<Point> &two) {
+        return contourArea(one) > contourArea(two);
+    });
 
     return contours;
 }
 
 vector<int> ImageProc::getContourCenter(const vector<Point> &contour) {
+    if (contour.empty()) {
+        return {0, 0};
+    }
+
     Moments m = moments(contour);
 
     int center_x = (int) (m.m10 / m.m00);
@@ -62,7 +73,7 @@ void ImageProc::draw_contour_cross(const Mat &src, const vector<int> &centers, c
 void ImageProc::drawContours(const Mat &src, const vector<vector<Point>> &contours, bool rectangle, bool cross) {
     if (rectangle) {
         for (const vector<Point> &contour : contours) {
-            draw_contour_rectangle(src, contour, Scalar(50, 150, 0));
+            draw_contour_rectangle(src, contour, Scalar(255, 0, 0));
         }
     } else {
         cv::drawContours(src, contours, -1, Scalar(0, 255, 255), 1);
