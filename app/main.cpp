@@ -6,6 +6,8 @@
 #include "opencv4/opencv2/highgui.hpp"
 
 using std::cout;
+using std::cerr;
+
 using std::endl;
 
 using namespace cv;
@@ -49,9 +51,9 @@ int main() {
 
             double err = 0.1 * (x - target_centers.at(0));
 
-            robot.setVelocities({-err, err});
+            robot.setCameraVelocity(err);
         } catch (Exception &ex) {
-
+            cerr << ex.what();
         }
     }
 

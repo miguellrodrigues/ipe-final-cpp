@@ -18,7 +18,7 @@ Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_
                                                                                           wheels_count(wheels_count),
                                                                                           wheel_radius(wheel_radius) {
     this->controller = new Controller(sampling_rate);
-    this->camera = new Camera("camera");
+    this->camera = new MotorizedCamera("camera");
 
     this->camera->enable((int) sampling_rate);
 
@@ -45,6 +45,10 @@ void Robot::setVelocities(const vector<double> &velocities) {
 
 Robot::~Robot() {
     delete this->controller;
+}
+
+void Robot::setCameraVelocity(double v) {
+    this->camera->setVelocity(v);
 }
 
 Mat Robot::getCameraImage() {

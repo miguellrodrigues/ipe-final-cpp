@@ -25,7 +25,7 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         src/Robot.cpp
         src/ImageProc.cpp
 
-        tests/camera_test.cpp)
+        tests/camera_test.cpp include/_webots/MotorizedCamera.hpp src/webots/MotorizedCamera.cpp src/webots/MotorizedCamera.hpp)
 
 link_directories(/usr/local/webots/lib/controller)
 set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX} ${OpenCV_LIBS})
