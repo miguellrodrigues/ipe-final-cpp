@@ -5,7 +5,7 @@
 // Created by miguellr on 06/12/2020.
 //
 
-#include "../../include/webots/Controller.hpp"
+#include "../../include/_webots/Controller.hpp"
 
 #include <webots/Device.hpp>
 #include <webots/Motor.hpp>
@@ -17,12 +17,12 @@ using lib::Controller;
 using webots::Supervisor;
 using webots::Node;
 
-Controller::Controller(Supervisor *supervisor, unsigned int samplingRate) {
-    this->supervisor = supervisor;
+Controller::Controller(unsigned int samplingRate) {
+    this->supervisor = new Supervisor();
     this->samplingRate = samplingRate;
 }
 
-double Controller::step() {
+int Controller::step() {
     return this->getSupervisor()->step((int) samplingRate);
 }
 

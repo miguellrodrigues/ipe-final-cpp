@@ -22,11 +22,11 @@ using std::string;
 namespace lib {
     class Controller {
     public:
-        explicit Controller(Supervisor *supervisor, unsigned int samplingRate);
+        explicit Controller(unsigned int samplingRate);
 
         ~Controller();
 
-        double step();
+        int step();
 
         Supervisor *getSupervisor();
 

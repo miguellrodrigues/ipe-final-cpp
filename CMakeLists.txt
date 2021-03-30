@@ -10,7 +10,17 @@ find_package(OpenCV REQUIRED)
 file(GLOB C_SOURCES *.c)
 file(GLOB CPP_SOURCES *.cpp)
 
-set(SOURCES ${C_SOURCES} ${CPP_SOURCES} app/main.cpp include/webots/Controller.hpp src/webots/Controller.cpp include/Robot.hpp src/Robot.cpp include/webots/Motor.hpp src/webots/Motor.cpp include/webots/Encoder.hpp src/webots/Encoder.cpp src/webots/Encoder.hpp)
+set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
+        app/main.cpp
+        include/_webots/Controller.hpp
+        include/_webots/Wheel.hpp
+        include/_webots/Encoder.hpp
+        include/Robot.hpp
+
+        src/webots/Controller.cpp
+        src/webots/Wheel.cpp
+        src/webots/Encoder.cpp
+        src/Robot.cpp)
 
 link_directories(/usr/local/webots/lib/controller)
 set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX} ${OpenCV_LIBS})
