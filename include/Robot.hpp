@@ -9,9 +9,13 @@
 #include "_webots/Wheel.hpp"
 #include "_webots/Encoder.hpp"
 
+#include <webots/Camera.hpp>
+
 using lib::Controller;
 using lib::Wheel;
 using lib::Encoder;
+
+using webots::Camera;
 
 class Robot {
 public:
@@ -27,6 +31,8 @@ private:
 
     vector<Wheel *> wheels;
     vector<Encoder *> encoders;
+
+    Camera *camera;
 
     unsigned int sampling_rate;
     unsigned int wheels_count;

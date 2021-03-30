@@ -16,7 +16,7 @@ int main() {
     );
 
     while (robot.run() != -1) {
-        cout << "Hello ! " << endl;
+        robot.setVelocities({1, 1});
     }
 
     return 0;
