@@ -26,7 +26,7 @@ int main() {
     int state = 0,
             cam_width_center = 1280 / 2;
 
-    double  s          = -1,
+    double s = -1,
             ball_err,
             target_err = 100,
             v_ref = 9.0;

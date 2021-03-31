@@ -4,11 +4,8 @@
 
 #include "../include/ImageProc.hpp"
 #include <vector>
-#include <iostream>
 
 using std::vector;
-using std::cout;
-using std::endl;
 
 
 Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
