@@ -29,8 +29,7 @@ int main() {
     double  s          = -1,
             ball_err,
             target_err = 100,
-            v_ref = 9.0,
-            turn_angle = 83;
+            v_ref = 9.0;
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
