@@ -23,13 +23,13 @@ int main() {
 
     namedWindow("output", WINDOW_NORMAL);
 
-    int state            = 0,
-        cam_width_center = 1280 / 2;
+    int state = 0,
+            cam_width_center = 1280 / 2;
 
-    double s         = -1,
-          ball_err,
-          target_err = 100,
-          v_ref = 9.0;
+    double s = -1,
+            ball_err,
+            target_err = 100,
+            v_ref = 9.0;
 
     robot.turn(-80);
 

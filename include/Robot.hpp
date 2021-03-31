@@ -30,7 +30,7 @@ public:
 
     cv::Mat getCameraImage();
 
-    double getCameraPosition(bool rad=true);
+    double getCameraPosition(bool rad = true);
 
     void turnCamera(double d);
 
@@ -47,11 +47,6 @@ private:
     vector<Encoder *> encoders;
 
     MotorizedCamera *camera;
-
-    unsigned int sampling_rate;
-    unsigned int wheels_count;
-
-    float wheel_radius;
 };
 
 #endif //IPE_FINAL_ROBOT_HPP

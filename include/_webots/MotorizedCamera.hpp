@@ -22,7 +22,8 @@ namespace lib {
 
         void setVelocity(double v);
 
-        double getEncoderValue(bool rad=true);
+        double getEncoderValue(bool rad = true);
+
     private:
         Motor *motor;
 

@@ -8,7 +8,7 @@
 
 using lib::Wheel;
 
-Wheel::Wheel(const string &name, float wheel_radius) : webots::Motor(name), wheel_radius(wheel_radius) {
+Wheel::Wheel(const string &name) : webots::Motor(name) {
     this->setVelocity(.0);
     this->setPosition(INFINITY);
 }

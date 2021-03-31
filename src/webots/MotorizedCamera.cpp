@@ -17,7 +17,7 @@ lib::MotorizedCamera::MotorizedCamera(const string &name, unsigned int sampling_
     this->motor = new Motor(name + "_motor");
     this->position_sensor = new PositionSensor("camera_position_sensor");
 
-    this->position_sensor->enable((int)sampling_rate);
+    this->position_sensor->enable((int) sampling_rate);
 
     motor->setPosition(INFINITY);
     motor->setVelocity(.0);
