@@ -52,9 +52,6 @@ int main() {
 
         ImageProc::drawContours(image, target_contours, true, true);
 
-        imshow("output", image);
-        waitKey(SAMPLING_RATE);
-
         if (state == 0 && abs(target_err) <= .01) {
             state = 1;
         }
@@ -97,6 +94,9 @@ int main() {
 
             robot.setVelocities({-s + v_ref, s + v_ref});
         }
+
+        imshow("output", image);
+        waitKey(SAMPLING_RATE);
     }
 
     return 0;
