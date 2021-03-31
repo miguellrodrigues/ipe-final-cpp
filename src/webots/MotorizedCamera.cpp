@@ -2,10 +2,13 @@
 // Created by miguel on 30/03/2021.
 //
 #include "../../include/_webots/MotorizedCamera.hpp"
+#include "../../include/Numbers.hpp"
 
 #include <webots/Camera.hpp>
 #include <webots/Motor.hpp>
+
 #define RAD_TO_DEG (180.0 / M_PI)
+#define DEG_TO_RAD (M_PI / 180.0)
 
 using webots::Camera;
 using webots::Motor;
@@ -31,7 +34,3 @@ double lib::MotorizedCamera::getEncoderValue(bool rad) {
         return this->position_sensor->getValue() * RAD_TO_DEG;
     }
 }
-
-
-
-

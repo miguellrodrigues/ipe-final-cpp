@@ -69,6 +69,21 @@ double Robot::getCameraPosition(bool rad) {
     return this->camera->getEncoderValue(rad);
 }
 
+
+void Robot::turnCamera(double d) {
+    double r = -d * DEG_TO_RAD;
+
+    double start_angle = this->camera->getEncoderValue();
+    double angle_error = r - (this->camera->getEncoderValue() - start_angle);
+
+    while (abs(angle_error) > .001 && run() != -1) {
+        angle_error = r - (this->camera->getEncoderValue() - start_angle);
+
+        double u = Numbers::constrain(angle_error * 0.6, 2);
+        this->setCameraVelocity(u);
+    }
+}
+
 double Robot::getRotationAngle() {
     double left_w = this->encoders.at(0)->getPosition();
     double right_w = this->encoders.at(1)->getPosition();

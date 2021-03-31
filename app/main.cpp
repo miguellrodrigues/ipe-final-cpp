@@ -21,8 +21,13 @@ int main() {
 
     namedWindow("output");
 
-    int state = 0;
-    double s = -1, ball_err = 100, target_err = 100;
+    int state            = 0,
+        cam_width_center = 640 / 2;
+
+    double s         = -1,
+          ball_err,
+          target_err = 100,
+          v_ref = 8.0;
 
     robot.turn(-90);
 
@@ -49,7 +54,6 @@ int main() {
         waitKey(16);
 
         if (state == 0 && abs(target_err) <= .01) {
-            s = .0;
             state = 1;
         }
 
@@ -57,7 +61,7 @@ int main() {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
 
-                ball_err = (320 - ball_centers.at(0));
+                ball_err = (cam_width_center - ball_centers.at(0));
 
                 s = ball_err * 0.005;
 
@@ -70,22 +74,27 @@ int main() {
                     robot.setVelocities({y, y});
                 }
             }
-        } else if (state == 1) {
-            // turn robot to align with the ball
 
+            robot.setCameraVelocity(s);
+        } else if (state == 1) {
             double angle = robot.getCameraPosition(false);
 
+            robot.turnCamera(angle);
             robot.turn(-angle);
 
-            cout << angle << endl;
-
+            s = .0;
             state = 2;
         } else {
-            robot.setVelocities({0, 0});
-            // kick the ball
-        }
+            if (!ball_contours.empty()) {
+                vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
 
-        robot.setCameraVelocity(s);
+                ball_err = (cam_width_center - ball_centers.at(0));
+
+                s = ball_err * 0.01;
+            }
+
+            robot.setVelocities({-s + v_ref, s + v_ref});
+        }
     }
 
     return 0;

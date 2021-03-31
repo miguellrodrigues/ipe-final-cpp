@@ -32,6 +32,8 @@ public:
 
     double getCameraPosition(bool rad=true);
 
+    void turnCamera(double d);
+
     double getRotationAngle();
 
     void turn(double d);
