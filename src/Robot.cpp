@@ -102,7 +102,7 @@ void Robot::turn(double d) {
     while (abs(angle_error) > .0001 && this->run() != -1) {
         angle_error = r - (this->getRotationAngle() - start_angle);
 
-        double u = Numbers::constrain(angle_error * 5, 10);
+        double u = Numbers::constrain(angle_error * 2, 10);
         this->setVelocities({-u, u});
     }
 }

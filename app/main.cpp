@@ -12,9 +12,11 @@ using std::endl;
 
 using namespace cv;
 
+#define SAMPLING_RATE 16
+
 int main() {
     Robot robot(
-            16,
+            SAMPLING_RATE,
             2,
             .031
     );
@@ -51,7 +53,7 @@ int main() {
         ImageProc::drawContours(image, target_contours, true, true);
 
         imshow("output", image);
-        waitKey(16);
+        waitKey(SAMPLING_RATE);
 
         if (state == 0 && abs(target_err) <= .01) {
             state = 1;
