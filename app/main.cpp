@@ -116,7 +116,7 @@ int main() {
                 robot.setVelocities({v_ref, -v_ref});
             }
 
-            if (ts.getValue() == 1) {
+            if (robot.getTouchSensorValue() == 1) {
                 robot.passiveWait(1);
                 state = 4;
             }
