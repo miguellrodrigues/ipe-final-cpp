@@ -26,12 +26,13 @@ int main() {
     int state = 0,
             cam_width_center = 1280 / 2;
 
-    double s = -1,
+    double  s          = -1,
             ball_err,
             target_err = 100,
-            v_ref = 9.0;
+            v_ref = 9.0,
+            turn_angle = 80;
 
-    robot.turn(-80);
+    robot.turn(-turn_angle);
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
@@ -52,7 +53,7 @@ int main() {
 
         ImageProc::drawContours(image, target_contours, true, true);
 
-        if (state == 0 && abs(target_err) <= .01) {
+        if (state == 0 && abs(target_err) <= 1) {
             state = 1;
         }
 
@@ -79,7 +80,7 @@ int main() {
             double angle = robot.getCameraPosition(false);
 
             robot.turnCamera(angle);
-            robot.turn(80);
+            robot.turn(turn_angle);
 
             s = .0;
             state = 2;
