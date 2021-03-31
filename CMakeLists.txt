@@ -28,7 +28,7 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         src/webots/MotorizedCamera.cpp
 
         tests/camera_test.cpp
-        tests/hsv_test.cpp)
+        tests/hsv_test.cpp include/Numbers.hpp)
 
 link_directories(/usr/local/webots/lib/controller)
 set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX} ${OpenCV_LIBS})

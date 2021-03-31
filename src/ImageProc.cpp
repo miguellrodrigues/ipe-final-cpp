@@ -32,7 +32,7 @@ vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lowe
     Mat mask = threshold(src, lower_bound, upper_bound);
 
     vector<vector<Point>> contours;
-    cv::findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+    cv::findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
     mask.release();
 

@@ -15,10 +15,13 @@ namespace lib {
     public:
         Encoder(const string &name, float wheel_radius, unsigned int sampling_rate);
 
+        void setOffset(double o);
+
         double getPosition();
 
     private:
-        float wheel_radius;
+        double wheel_radius;
+        double offset = .0;
     };
 }
 

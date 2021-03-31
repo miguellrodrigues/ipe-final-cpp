@@ -18,9 +18,11 @@ using webots::PositionSensor;
 namespace lib {
     class MotorizedCamera : public webots::Camera {
     public:
-        MotorizedCamera(const string &name);
+        MotorizedCamera(const string &name, unsigned int sampling_rate);
 
         void setVelocity(double v);
+
+        double getEncoderValue(bool rad=true);
     private:
         Motor *motor;
 

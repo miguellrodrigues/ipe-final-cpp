@@ -30,6 +30,12 @@ public:
 
     cv::Mat getCameraImage();
 
+    double getCameraPosition(bool rad=true);
+
+    double getRotationAngle();
+
+    void turn(double d);
+
     ~Robot();
 
 private:
