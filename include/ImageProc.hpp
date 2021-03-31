@@ -23,12 +23,12 @@ public:
 
     static vector<int> getContourCenter(const vector<Point> &contour);
 
-    static void
-    drawContours(const Mat &src, const vector<vector<Point>> &contours, bool rectangle = false, bool cross = false);
-
     static void draw_contour_rectangle(const Mat &src, const vector<Point> &contour, const Scalar &color);
 
     static void draw_contour_cross(const Mat &src, const vector<int> &centers, const Scalar &color);
+
+    static void
+    drawContours(const Mat &src, const vector<vector<Point>> &contours, bool rectangle = false, bool cross = false);
 
     static Mat processCameraImage(unsigned int height, unsigned int width, const unsigned char *data);
 };

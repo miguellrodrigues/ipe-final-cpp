@@ -16,7 +16,7 @@ using lib::Wheel;
 using lib::Encoder;
 using lib::MotorizedCamera;
 
-using webots::Camera;
+using webots::TouchSensor;
 
 class Robot {
 public:
@@ -38,6 +38,10 @@ public:
 
     void turn(double d);
 
+    void passiveWait(double s);
+
+    unsigned int getTouchSensorValue();
+
     ~Robot();
 
 private:
@@ -47,6 +51,7 @@ private:
     vector<Encoder *> encoders;
 
     MotorizedCamera *camera;
+    TouchSensor *touch_sensor;
 };
 
 #endif //IPE_FINAL_ROBOT_HPP

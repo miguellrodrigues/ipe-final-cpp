@@ -5,8 +5,9 @@
 #include "../include/Robot.hpp"
 #include "../include/Numbers.hpp"
 
+#include <webots/TouchSensor.hpp>
+
 #include <vector>
-#include <iostream>
 #include <cmath>
 
 #define DEG_TO_RAD (M_PI / 180.0)
@@ -17,9 +18,12 @@ using std::cout;
 using std::endl;
 using std::to_string;
 
+
 Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_radius) {
     this->controller = new Controller(sampling_rate);
     this->camera = new MotorizedCamera("camera", sampling_rate);
+    this->touch_sensor = new TouchSensor("touch_sensor");
+    this->touch_sensor->enable(sampling_rate);
 
     this->camera->enable((int) sampling_rate);
 
@@ -47,13 +51,6 @@ void Robot::setVelocities(const vector<double> &velocities) {
     }
 }
 
-Robot::~Robot() {
-    this->wheels.clear();
-    this->encoders.clear();
-
-    delete this->camera;
-    delete this->controller;
-}
 
 void Robot::setCameraVelocity(double v) {
     this->camera->setVelocity(v);
@@ -67,17 +64,16 @@ double Robot::getCameraPosition(bool rad) {
     return this->camera->getEncoderValue(rad);
 }
 
-
 void Robot::turnCamera(double d) {
     double r = -d * DEG_TO_RAD;
 
     double start_angle = this->camera->getEncoderValue();
     double angle_error = r - (this->camera->getEncoderValue() - start_angle);
 
-    while (abs(angle_error) > .001 && run() != -1) {
+    while (abs(angle_error) > .01 && run() != -1) {
         angle_error = r - (this->camera->getEncoderValue() - start_angle);
 
-        double u = Numbers::constrain(angle_error * 0.6, 2);
+        double u = Numbers::constrain(angle_error * 0.2, 1);
         this->setCameraVelocity(u);
     }
 }
@@ -103,4 +99,24 @@ void Robot::turn(double d) {
         double u = Numbers::constrain(angle_error * 2, 10);
         this->setVelocities({-u, u});
     }
+}
+
+void Robot::passiveWait(double s) {
+    double start_time = this->controller->getSupervisor()->getTime();
+
+    while (start_time + s > this->controller->getSupervisor()->getTime()) {
+        this->controller->step();
+    }
+}
+
+unsigned int Robot::getTouchSensorValue() {
+    return (unsigned int)this->touch_sensor->getValue();
+}
+
+Robot::~Robot() {
+    this->wheels.clear();
+    this->encoders.clear();
+
+    delete this->camera;
+    delete this->controller;
 }

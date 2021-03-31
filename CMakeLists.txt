@@ -20,12 +20,12 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         include/ImageProc.hpp
         include/_webots/MotorizedCamera.hpp
 
-        src/webots/Controller.cpp
-        src/webots/Wheel.cpp
-        src/webots/Encoder.cpp
+        src/_webots/Controller.cpp
+        src/_webots/Wheel.cpp
+        src/_webots/Encoder.cpp
         src/Robot.cpp
         src/ImageProc.cpp
-        src/webots/MotorizedCamera.cpp
+        src/_webots/MotorizedCamera.cpp
 
         tests/camera_test.cpp
         tests/hsv_test.cpp include/Numbers.hpp)

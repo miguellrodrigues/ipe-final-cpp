@@ -5,14 +5,25 @@
 #include "../include/Robot.hpp"
 #include "opencv4/opencv2/highgui.hpp"
 
+#include <webots/TouchSensor.hpp>
+
 using std::cout;
 using std::cerr;
-
 using std::endl;
+
+using webots::TouchSensor;
 
 using namespace cv;
 
-#define SAMPLING_RATE 16
+#define SAMPLING_RATE 8
+
+double compute_ball_err_s(const vector<Point>& contour, int cam_width_center, double kp) {
+    vector<int> ball_centers = ImageProc::getContourCenter(contour);
+
+    double err = (cam_width_center - ball_centers.at(0));
+
+    return err * kp;
+}
 
 int main() {
     Robot robot(
@@ -52,6 +63,8 @@ int main() {
 
         if (state == 0 && abs(target_err) <= .0) {
             state = 1;
+        } else if (state == 2 && abs(ball_err) <= .0) {
+            state = 3;
         }
 
         if (state == 0) {
@@ -82,18 +95,34 @@ int main() {
 
             s = .0;
             state = 2;
-        } else {
+        } else if (state == 2) {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
 
                 ball_err = (cam_width_center - ball_centers.at(0));
 
-                s = ball_err * 0.01;
+                s = .01 * ball_err;
+
+                robot.setVelocities({-s, s});
+            } else {
+                robot.setVelocities({v_ref, -v_ref});
+            }
+        } else if(state == 3) {
+            if (!ball_contours.empty()) {
+                s = compute_ball_err_s(ball_contours[0], cam_width_center, .01);
 
                 robot.setVelocities({-s + v_ref, s + v_ref});
             } else {
                 robot.setVelocities({v_ref, -v_ref});
             }
+
+            if (ts.getValue() == 1) {
+                robot.passiveWait(1);
+                state = 4;
+            }
+        } else {
+            robot.setVelocities({.0, .0});
+            robot.passiveWait(9999);
         }
 
         imshow("output", image);
