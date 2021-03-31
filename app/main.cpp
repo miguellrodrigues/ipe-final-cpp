@@ -15,7 +15,7 @@ using webots::TouchSensor;
 
 using namespace cv;
 
-#define SAMPLING_RATE 8
+#define SAMPLING_RATE 16
 
 double compute_ball_err_s(const vector<Point>& contour, int cam_width_center, double kp) {
     vector<int> ball_centers = ImageProc::getContourCenter(contour);
