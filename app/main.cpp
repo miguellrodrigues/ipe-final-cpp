@@ -30,9 +30,7 @@ int main() {
             ball_err,
             target_err = 100,
             v_ref = 9.0,
-            turn_angle = 80;
-
-    robot.turn(-turn_angle);
+            turn_angle = 83;
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
@@ -53,7 +51,7 @@ int main() {
 
         ImageProc::drawContours(image, target_contours, true, true);
 
-        if (state == 0 && abs(target_err) <= 1) {
+        if (state == 0 && abs(target_err) <= .0) {
             state = 1;
         }
 
@@ -72,6 +70,8 @@ int main() {
                     double y = target_err * .05;
 
                     robot.setVelocities({y, y});
+                } else {
+                    robot.setVelocities({v_ref, v_ref});
                 }
             }
 
@@ -80,7 +80,6 @@ int main() {
             double angle = robot.getCameraPosition(false);
 
             robot.turnCamera(angle);
-            robot.turn(turn_angle);
 
             s = .0;
             state = 2;
@@ -91,9 +90,11 @@ int main() {
                 ball_err = (cam_width_center - ball_centers.at(0));
 
                 s = ball_err * 0.01;
-            }
 
-            robot.setVelocities({-s + v_ref, s + v_ref});
+                robot.setVelocities({-s + v_ref, s + v_ref});
+            } else {
+                robot.setVelocities({v_ref, -v_ref});
+            }
         }
 
         imshow("output", image);
