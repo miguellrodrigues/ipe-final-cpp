@@ -21,17 +21,17 @@ int main() {
             .031
     );
 
-    namedWindow("output");
+    namedWindow("output", WINDOW_NORMAL);
 
     int state            = 0,
-        cam_width_center = 640 / 2;
+        cam_width_center = 1280 / 2;
 
     double s         = -1,
           ball_err,
           target_err = 100,
-          v_ref = 8.0;
+          v_ref = 9.0;
 
-    robot.turn(-90);
+    robot.turn(-80);
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
@@ -82,7 +82,7 @@ int main() {
             double angle = robot.getCameraPosition(false);
 
             robot.turnCamera(angle);
-            robot.turn(-angle);
+            robot.turn(80);
 
             s = .0;
             state = 2;
