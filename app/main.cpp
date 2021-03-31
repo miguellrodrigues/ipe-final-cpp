@@ -26,16 +26,16 @@ int main() {
 
         vector<vector<Point>> ball_contours = ImageProc::findContours(
                 image,
-                Scalar(103, 26, 0),
-                Scalar(156, 255, 255)
+                Scalar(105, 37, 0),
+                Scalar(138, 238, 255)
         );
 
         ImageProc::drawContours(image, ball_contours, false, true);
 
         vector<vector<Point>> target_contours = ImageProc::findContours(
                 image,
-                Scalar(65, 0, 0),
-                Scalar(98, 223, 255)
+                Scalar(84, 0, 0),
+                Scalar(100, 255, 152)
         );
 
         ImageProc::drawContours(image, target_contours, true, true);
@@ -49,7 +49,7 @@ int main() {
 
             int x = 640 / 2;
 
-            double err = 0.1 * (x - target_centers.at(0));
+            double err = 0.005 * (x - target_centers.at(0));
 
             robot.setCameraVelocity(err);
         } catch (Exception &ex) {
@@ -59,3 +59,4 @@ int main() {
 
     return 0;
 }
+

@@ -7,10 +7,13 @@
 
 #include <webots/Camera.hpp>
 #include <webots/Motor.hpp>
+#include <webots/PositionSensor.hpp>
 #include <string>
+
 
 using std::string;
 using webots::Motor;
+using webots::PositionSensor;
 
 namespace lib {
     class MotorizedCamera : public webots::Camera {
@@ -20,6 +23,8 @@ namespace lib {
         void setVelocity(double v);
     private:
         Motor *motor;
+
+        PositionSensor *position_sensor;
     };
 }
 

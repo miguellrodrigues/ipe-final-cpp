@@ -11,6 +11,7 @@ using webots::Motor;
 
 lib::MotorizedCamera::MotorizedCamera(const string &name) : Camera(name) {
     this->motor = new Motor(name + "_motor");
+    this->position_sensor = new PositionSensor("camera_position_sensor");
 
     motor->setPosition(INFINITY);
     motor->setVelocity(.0);
