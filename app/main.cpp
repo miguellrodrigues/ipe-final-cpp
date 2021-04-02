@@ -62,8 +62,16 @@ int main() {
         ImageProc::drawContours(image, target_contours, true, true);
 
         if (state == 0 && abs(target_err) <= .0) {
+            double angle = robot.getCameraPosition(false);
+
+            robot.turnCamera(angle);
+
+            s = .0;
             state = 1;
-        } else if (state == 2 && abs(ball_err) <= .0) {
+        } else if (state == 1 && abs(ball_err) <= .0) {
+            state = 2;
+        } else if (state == 2 && robot.getTouchSensorValue() == 1) {
+            robot.passiveWait(1);
             state = 3;
         }
 
@@ -89,13 +97,6 @@ int main() {
 
             robot.setCameraVelocity(s);
         } else if (state == 1) {
-            double angle = robot.getCameraPosition(false);
-
-            robot.turnCamera(angle);
-
-            s = .0;
-            state = 2;
-        } else if (state == 2) {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
 
@@ -107,18 +108,13 @@ int main() {
             } else {
                 robot.setVelocities({v_ref, -v_ref});
             }
-        } else if(state == 3) {
+        } else if(state == 2) {
             if (!ball_contours.empty()) {
                 s = compute_ball_err_s(ball_contours[0], cam_width_center, .01);
 
                 robot.setVelocities({-s + v_ref, s + v_ref});
             } else {
                 robot.setVelocities({v_ref, -v_ref});
-            }
-
-            if (robot.getTouchSensorValue() == 1) {
-                robot.passiveWait(1);
-                state = 4;
             }
         } else {
             robot.setVelocities({.0, .0});
