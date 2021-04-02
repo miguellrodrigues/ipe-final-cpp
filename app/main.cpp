@@ -17,7 +17,7 @@ using namespace cv;
 
 #define SAMPLING_RATE 16
 
-double compute_ball_err(const vector<Point>& contour, int cam_width_center) {
+double compute_ball_err(const vector<Point> &contour, int cam_width_center) {
     vector<int> ball_centers = ImageProc::getContourCenter(contour);
 
     double err = (cam_width_center - ball_centers.at(0));
@@ -78,7 +78,7 @@ int main() {
             state = 3;
         }
 
-        if (!ball_contours.empty()){
+        if (!ball_contours.empty()) {
             ball_err = compute_ball_err(ball_contours[0], cam_width_center);
         }
 
@@ -90,7 +90,7 @@ int main() {
                     vector<int> target_centers = ImageProc::getContourCenter(target_contours[0]);
 
                     target_err = (target_centers[0] - ImageProc::getContourCenter(ball_contours[0])[0]);
-                    double y = target_err * .05;
+                    double y = target_err * kp;
 
                     robot.setVelocities({y, y});
                 } else {
@@ -107,7 +107,7 @@ int main() {
             } else {
                 robot.setVelocities({v_ref, -v_ref});
             }
-        } else if(state == 2) {
+        } else if (state == 2) {
             if (!ball_contours.empty()) {
                 s = ball_err * kp;
 
