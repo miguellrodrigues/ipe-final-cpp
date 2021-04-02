@@ -17,12 +17,12 @@ using namespace cv;
 
 #define SAMPLING_RATE 16
 
-double compute_ball_err_s(const vector<Point>& contour, int cam_width_center, double kp) {
+double compute_ball_err(const vector<Point>& contour, int cam_width_center) {
     vector<int> ball_centers = ImageProc::getContourCenter(contour);
 
     double err = (cam_width_center - ball_centers.at(0));
 
-    return err * kp;
+    return err;
 }
 
 int main() {
@@ -38,9 +38,10 @@ int main() {
             cam_width_center = 1280 / 2;
 
     double s = -1,
-            ball_err,
+            ball_err = 100,
             target_err = 100,
-            v_ref = 9.0;
+            v_ref = 9.0,
+            kp = .005;
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
@@ -68,6 +69,8 @@ int main() {
 
             s = .0;
             state = 1;
+
+            kp = .01;
         } else if (state == 1 && abs(ball_err) <= .0) {
             state = 2;
         } else if (state == 2 && robot.getTouchSensorValue() == 1) {
@@ -75,18 +78,18 @@ int main() {
             state = 3;
         }
 
+        if (!ball_contours.empty()){
+            ball_err = compute_ball_err(ball_contours[0], cam_width_center);
+        }
+
         if (state == 0) {
             if (!ball_contours.empty()) {
-                vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
-
-                ball_err = (cam_width_center - ball_centers.at(0));
-
-                s = ball_err * 0.005;
+                s = ball_err * kp;
 
                 if (!target_contours.empty()) {
                     vector<int> target_centers = ImageProc::getContourCenter(target_contours[0]);
 
-                    target_err = (target_centers[0] - ball_centers[0]);
+                    target_err = (target_centers[0] - ImageProc::getContourCenter(ball_contours[0])[0]);
                     double y = target_err * .05;
 
                     robot.setVelocities({y, y});
@@ -98,11 +101,7 @@ int main() {
             robot.setCameraVelocity(s);
         } else if (state == 1) {
             if (!ball_contours.empty()) {
-                vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
-
-                ball_err = (cam_width_center - ball_centers.at(0));
-
-                s = .01 * ball_err;
+                s = ball_err * kp;
 
                 robot.setVelocities({-s, s});
             } else {
@@ -110,7 +109,7 @@ int main() {
             }
         } else if(state == 2) {
             if (!ball_contours.empty()) {
-                s = compute_ball_err_s(ball_contours[0], cam_width_center, .01);
+                s = ball_err * kp;
 
                 robot.setVelocities({-s + v_ref, s + v_ref});
             } else {
