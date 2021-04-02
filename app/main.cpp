@@ -53,15 +53,12 @@ int main() {
                 Scalar(138, 238, 255)
         );
 
-        ImageProc::drawContours(image, ball_contours, false, true);
-
         vector<vector<Point>> target_contours = ImageProc::findContours(
                 image,
                 Scalar(89, 50, 0),
                 Scalar(102, 221, 197)
         );
 
-        ImageProc::drawContours(image, target_contours, true, true);
 
         if (state == 0 && abs(target_err) <= .0) {
             double angle = robot.getCameraPosition(false);
@@ -70,6 +67,8 @@ int main() {
 
             s = .0;
             state = 1;
+
+            ball_contours.clear();
         } else if (state == 1 && abs(ball_err) <= .0) {
             state = 2;
         } else if (state == 2 && robot.getTouchSensorValue() == 1) {
@@ -129,8 +128,8 @@ int main() {
             robot.passiveWait(9999);
         }
 
-        imshow("output", image);
-        waitKey(SAMPLING_RATE);
+        /*imshow("output", image);
+        waitKey(SAMPLING_RATE);*/
     }
 
     return 0;
