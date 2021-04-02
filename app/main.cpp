@@ -22,6 +22,8 @@ double compute_ball_err_s(const vector<Point>& contour, int cam_width_center, do
 
     double err = (cam_width_center - ball_centers.at(0));
 
+    ball_centers.clear();
+
     return err * kp;
 }
 
@@ -90,9 +92,13 @@ int main() {
                     double y = target_err * .05;
 
                     robot.setVelocities({y, y});
+
+                    target_centers.clear();
                 } else {
                     robot.setVelocities({v_ref, v_ref});
                 }
+
+                ball_centers.clear();
             }
 
             robot.setCameraVelocity(s);
@@ -105,6 +111,8 @@ int main() {
                 s = .01 * ball_err;
 
                 robot.setVelocities({-s, s});
+
+                ball_centers.clear();
             } else {
                 robot.setVelocities({v_ref, -v_ref});
             }
