@@ -60,8 +60,8 @@ void ImageProc::draw_contour_rectangle(const Mat &src, const vector<Point> &cont
 }
 
 void ImageProc::draw_contour_cross(const Mat &src, const vector<int> &centers, const Scalar &color) {
-    int center_x = centers.at(0);
-    int center_y = centers.at(1);
+    int center_x = centers[0];
+    int center_y = centers[1];
 
     line(src, Point(center_x, center_y + 5), Point(center_x, center_y - 5), color, 1);
     line(src, Point(center_x + 5, center_y), Point(center_x - 5, center_y), color, 1);

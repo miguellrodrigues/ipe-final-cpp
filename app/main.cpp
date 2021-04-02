@@ -20,7 +20,7 @@ using namespace cv;
 double compute_ball_err_s(const vector<Point>& contour, int cam_width_center, double kp) {
     vector<int> ball_centers = ImageProc::getContourCenter(contour);
 
-    double err = (cam_width_center - ball_centers.at(0));
+    double err = (cam_width_center - ball_centers[0]);
 
     ball_centers.clear();
 
@@ -106,7 +106,7 @@ int main() {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
 
-                ball_err = (cam_width_center - ball_centers.at(0));
+                ball_err = (cam_width_center - ball_centers[0]);
 
                 s = .01 * ball_err;
 
