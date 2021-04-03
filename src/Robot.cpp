@@ -51,13 +51,12 @@ void Robot::setVelocities(const vector<double> &velocities) {
     }
 }
 
-
 void Robot::setCameraVelocity(double v) {
     this->camera->setVelocity(v);
 }
 
-Mat Robot::getCameraImage() {
-    return ImageProc::processCameraImage(camera->getHeight(), camera->getWidth(), camera->getImage());
+Mat Robot::getCameraImage(bool log_polar) {
+    return ImageProc::processCameraImage(camera->getHeight(), camera->getWidth(), camera->getImage(), log_polar);
 }
 
 double Robot::getCameraPosition(bool rad) {
@@ -119,4 +118,8 @@ Robot::~Robot() {
 
     delete this->camera;
     delete this->controller;
+}
+
+double Robot::distanceByArea(double area) {
+    return 38.4 * (pow(area, -.501));
 }

@@ -7,6 +7,8 @@
 
 using std::vector;
 
+#define center Point2f((float) 1280 / 2, (float) 720 / 2)
+#define maxRadius (double) 0.6 * min(center.y, center.x)
 
 Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
     GpuMat g_frame, hsv;
@@ -83,8 +85,28 @@ void ImageProc::drawContours(const Mat &src, const vector<vector<Point>> &contou
     }
 }
 
-Mat ImageProc::processCameraImage(unsigned int height, unsigned int width, const unsigned char *data) {
+Mat ImageProc::processCameraImage(unsigned int height, unsigned int width, const unsigned char *data, bool log_polar) {
     Mat out = Mat((int) height, (int) width, CV_8UC4, (unsigned *) data);
-    return out;
+    if (log_polar) {
+        return applyLogPolar(out);
+    } else {
+        return out;
+    }
+}
+
+Mat ImageProc::applyLogPolar(const Mat &src, const int flags) {
+    Mat log_image, recovered_image;
+
+    warpPolar(src, log_image, Size(), center, maxRadius, flags + WARP_POLAR_LOG); // semilog Polar
+
+    // inverse transform
+    warpPolar(log_image, recovered_image, src.size(), center, maxRadius,
+              flags + WARP_POLAR_LOG + WARP_INVERSE_MAP);
+
+    return recovered_image;
+}
+
+double ImageProc::getDistanceByArea(const vector<Point> &contour, double (*function)(double)) {
+    return function(cv::contourArea(contour));
 }
 

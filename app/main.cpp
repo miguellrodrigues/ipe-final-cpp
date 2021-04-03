@@ -34,7 +34,7 @@ int main() {
             .031
     );
 
-    namedWindow("output", WINDOW_NORMAL);
+    //namedWindow("output", WINDOW_NORMAL);
 
     int state = 0,
             cam_width_center = 1280 / 2;
@@ -55,10 +55,12 @@ int main() {
 
         vector<vector<Point>> target_contours = ImageProc::findContours(
                 image,
-                Scalar(89, 50, 0),
-                Scalar(102, 221, 197)
+                Scalar(88, 159, 0),
+                Scalar(98, 242, 245)
         );
 
+        //ImageProc::drawContours(image, ball_contours, false, true);
+        //ImageProc::drawContours(image, target_contours, true, true);
 
         if (state == 0 && abs(target_err) <= .0) {
             double angle = robot.getCameraPosition(false);
@@ -79,6 +81,8 @@ int main() {
         if (state == 0) {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
+
+                //double distance = ImageProc::getDistanceByArea(ball_contours[0], Robot::distanceByArea);
 
                 ball_err = (cam_width_center - ball_centers.at(0));
 
@@ -128,8 +132,8 @@ int main() {
             robot.passiveWait(9999);
         }
 
-        /*imshow("output", image);
-        waitKey(SAMPLING_RATE);*/
+        //imshow("output", image);
+        //waitKey(SAMPLING_RATE);
     }
 
     return 0;

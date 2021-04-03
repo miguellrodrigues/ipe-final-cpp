@@ -30,7 +30,11 @@ public:
     static void
     drawContours(const Mat &src, const vector<vector<Point>> &contours, bool rectangle = false, bool cross = false);
 
-    static Mat processCameraImage(unsigned int height, unsigned int width, const unsigned char *data);
+    static Mat processCameraImage(unsigned int height, unsigned int width, const unsigned char *data, bool log_polar);
+
+    static Mat applyLogPolar(const Mat& src, const int flags=cv::INTER_LINEAR + cv::WARP_FILL_OUTLIERS);
+
+    static double getDistanceByArea(const vector<Point> &contour, double (*function)(double));
 };
 
 #endif //IPE_FINAL_IMAGEPROC_HPP

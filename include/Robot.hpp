@@ -28,7 +28,7 @@ public:
 
     void setCameraVelocity(double v);
 
-    cv::Mat getCameraImage();
+    cv::Mat getCameraImage(bool log_polar=false);
 
     double getCameraPosition(bool rad = true);
 
@@ -41,6 +41,8 @@ public:
     void passiveWait(double s);
 
     unsigned int getTouchSensorValue();
+
+    static double distanceByArea(double area);
 
     ~Robot();
 
