@@ -121,5 +121,5 @@ Robot::~Robot() {
 }
 
 double Robot::distanceByArea(double area) {
-    return 38.4 * (pow(area, -.501));
+    return 201 * (pow(area, -.5));
 }

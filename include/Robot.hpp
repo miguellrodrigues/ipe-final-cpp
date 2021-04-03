@@ -45,9 +45,9 @@ public:
     static double distanceByArea(double area);
 
     ~Robot();
+    Controller *controller;
 
 private:
-    Controller *controller;
 
     vector<Wheel *> wheels;
     vector<Encoder *> encoders;

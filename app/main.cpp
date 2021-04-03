@@ -5,8 +5,6 @@
 #include "../include/Robot.hpp"
 #include "opencv4/opencv2/highgui.hpp"
 
-#include <webots/TouchSensor.hpp>
-
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -43,6 +41,7 @@ int main() {
             ball_err,
             target_err = 100,
             v_ref = 9.0;
+
 
     while (robot.run() != -1) {
         Mat image = robot.getCameraImage();
@@ -81,8 +80,6 @@ int main() {
         if (state == 0) {
             if (!ball_contours.empty()) {
                 vector<int> ball_centers = ImageProc::getContourCenter(ball_contours[0]);
-
-                //double distance = ImageProc::getDistanceByArea(ball_contours[0], Robot::distanceByArea);
 
                 ball_err = (cam_width_center - ball_centers.at(0));
 
