@@ -12,8 +12,14 @@
 
 using std::vector;
 
-using namespace cv;
-using namespace cv::cuda;
+using cv::Mat;
+using cv::Scalar;
+using cv::Point;
+using cv::min;
+
+using cv::cuda::GpuMat;
+using cv::cuda::cvtColor;
+
 
 class ImageProc {
 public:
@@ -32,7 +38,7 @@ public:
 
     static Mat processCameraImage(unsigned int height, unsigned int width, const unsigned char *data, bool log_polar);
 
-    static Mat applyLogPolar(const Mat& src, const int flags=cv::INTER_LINEAR + cv::WARP_FILL_OUTLIERS);
+    static Mat applyLogPolar(const Mat &src, const int flags = cv::INTER_LINEAR + cv::WARP_FILL_OUTLIERS);
 
     static double getDistanceByArea(const vector<Point> &contour, double (*function)(double));
 };

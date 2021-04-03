@@ -22,13 +22,13 @@ class Robot {
 public:
     Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_radius);
 
-    int run();
+    int run() const;
 
     void setVelocities(const vector<double> &velocities);
 
     void setCameraVelocity(double v);
 
-    cv::Mat getCameraImage(bool log_polar=false);
+    cv::Mat getCameraImage(bool log_polar = false);
 
     double getCameraPosition(bool rad = true);
 
@@ -38,13 +38,14 @@ public:
 
     void turn(double d);
 
-    void passiveWait(double s);
+    void passiveWait(double s) const;
 
     unsigned int getTouchSensorValue();
 
     static double distanceByArea(double area);
 
     ~Robot();
+
     Controller *controller;
 
 private:

@@ -23,7 +23,7 @@ Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_
     this->controller = new Controller(sampling_rate);
     this->camera = new MotorizedCamera("camera", sampling_rate);
     this->touch_sensor = new TouchSensor("touch_sensor");
-    this->touch_sensor->enable(sampling_rate);
+    this->touch_sensor->enable((int) sampling_rate);
 
     this->camera->enable((int) sampling_rate);
 
@@ -41,7 +41,7 @@ Robot::Robot(unsigned int sampling_rate, unsigned int wheels_count, float wheel_
     this->encoders.at(1)->setOffset(this->encoders.at(1)->getPosition());
 }
 
-int Robot::run() {
+int Robot::run() const {
     return controller->step();
 }
 
@@ -100,7 +100,7 @@ void Robot::turn(double d) {
     }
 }
 
-void Robot::passiveWait(double s) {
+void Robot::passiveWait(double s) const {
     double start_time = this->controller->getSupervisor()->getTime();
 
     while (start_time + s > this->controller->getSupervisor()->getTime()) {
@@ -109,7 +109,7 @@ void Robot::passiveWait(double s) {
 }
 
 unsigned int Robot::getTouchSensorValue() {
-    return (unsigned int)this->touch_sensor->getValue();
+    return (unsigned int) this->touch_sensor->getValue();
 }
 
 Robot::~Robot() {

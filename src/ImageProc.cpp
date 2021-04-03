@@ -7,7 +7,7 @@
 
 using std::vector;
 
-#define center Point2f((float) 1280 / 2, (float) 720 / 2)
+#define center cv::Point2f((float) 1280 / 2, (float) 720 / 2)
 #define maxRadius (double) 0.6 * min(center.y, center.x)
 
 Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
@@ -15,7 +15,7 @@ Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar
     Mat mask, mask_out;
 
     g_frame.upload(src);
-    cuda::cvtColor(g_frame, hsv, COLOR_RGB2HSV);
+    cv::cuda::cvtColor(g_frame, hsv, cv::COLOR_RGB2HSV);
     hsv.download(mask);
 
     inRange(mask, lower_bound, upper_bound, mask_out);
@@ -31,7 +31,7 @@ vector<vector<Point>> ImageProc::findContours(const Mat &src, const Scalar &lowe
     Mat mask = threshold(src, lower_bound, upper_bound);
 
     vector<vector<Point>> contours;
-    cv::findContours(mask, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     mask.release();
 
@@ -47,7 +47,7 @@ vector<int> ImageProc::getContourCenter(const vector<Point> &contour) {
         return {0, 0};
     }
 
-    Moments m = moments(contour);
+    cv::Moments m = moments(contour);
 
     int center_x = (int) (m.m10 / m.m00);
     int center_y = (int) (m.m01 / m.m00);
@@ -56,7 +56,7 @@ vector<int> ImageProc::getContourCenter(const vector<Point> &contour) {
 }
 
 void ImageProc::draw_contour_rectangle(const Mat &src, const vector<Point> &contour, const Scalar &color) {
-    Rect rect = boundingRect(contour);
+    cv::Rect rect = boundingRect(contour);
 
     cv::rectangle(src, rect, color, 1);
 }
@@ -97,11 +97,11 @@ Mat ImageProc::processCameraImage(unsigned int height, unsigned int width, const
 Mat ImageProc::applyLogPolar(const Mat &src, const int flags) {
     Mat log_image, recovered_image;
 
-    warpPolar(src, log_image, Size(), center, maxRadius, flags + WARP_POLAR_LOG); // semilog Polar
+    warpPolar(src, log_image, cv::Size(), center, maxRadius, flags + cv::WARP_POLAR_LOG); // semilog Polar
 
     // inverse transform
     warpPolar(log_image, recovered_image, src.size(), center, maxRadius,
-              flags + WARP_POLAR_LOG + WARP_INVERSE_MAP);
+              flags + cv::WARP_POLAR_LOG + cv::WARP_INVERSE_MAP);
 
     return recovered_image;
 }
