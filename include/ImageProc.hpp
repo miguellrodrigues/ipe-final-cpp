@@ -7,6 +7,7 @@
 
 #include "opencv2/imgproc.hpp"
 #include "opencv2/cudaimgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
 
 #include <vector>
 
@@ -16,10 +17,6 @@ using cv::Mat;
 using cv::Scalar;
 using cv::Point;
 using cv::min;
-
-using cv::cuda::GpuMat;
-using cv::cuda::cvtColor;
-
 
 class ImageProc {
 public:

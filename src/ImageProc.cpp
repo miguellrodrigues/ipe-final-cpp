@@ -8,20 +8,16 @@
 using std::vector;
 
 #define center cv::Point2f((float) 1280 / 2, (float) 720 / 2)
-#define maxRadius (double) 0.6 * min(center.y, center.x)
+#define maxRadius ((double) 0.6 * min(center.y, center.x))
 
 Mat ImageProc::threshold(const Mat &src, const Scalar &lower_bound, const Scalar &upper_bound) {
-    GpuMat g_frame, hsv;
-    Mat mask, mask_out;
+    Mat mask, mask_out, hsv;
 
-    g_frame.upload(src);
-    cv::cuda::cvtColor(g_frame, hsv, cv::COLOR_RGB2HSV);
-    hsv.download(mask);
+    cv::cvtColor(src, hsv, cv::COLOR_RGB2HSV);
 
-    inRange(mask, lower_bound, upper_bound, mask_out);
+    inRange(hsv, lower_bound, upper_bound, mask_out);
 
     mask.release();
-    g_frame.release();
     hsv.release();
 
     return mask_out;
