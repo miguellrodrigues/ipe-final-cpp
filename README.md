@@ -6,7 +6,7 @@ Essas instruções fornecerão uma cópia do projeto em funcionamento em sua má
 
 ## Pré-requisitos
 
-OpenCV + Cuda
+OpenCV
 
 Clone o repositório
 
